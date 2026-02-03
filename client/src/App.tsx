@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -17,6 +17,22 @@ const PageLoader = () => (
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
   </div>
 );
+
+// Optimize provider initialization to reduce TBT
+const OptimizedTooltipProvider = ({ children }: { children: React.ReactNode }) => {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    if (typeof requestIdleCallback !== 'undefined') {
+      requestIdleCallback(() => setMounted(true), { timeout: 2000 });
+    } else {
+      setTimeout(() => setMounted(true), 0);
+    }
+  }, []);
+  
+  if (!mounted) return <>{children}</>;
+  return <TooltipProvider>{children}</TooltipProvider>;
+};
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -46,10 +62,10 @@ function App() {
         defaultTheme="light"
         // switchable
       >
-        <TooltipProvider>
+        <OptimizedTooltipProvider>
           <Toaster />
           <Router />
-        </TooltipProvider>
+        </OptimizedTooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
