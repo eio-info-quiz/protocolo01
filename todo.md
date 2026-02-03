@@ -23,6 +23,9 @@
 - [ ] Otimizações de performance
 - [ ] SEO e meta tags
 
+## Ajustes Recentes
+- [x] Redimensionamento e centralização da imagem na seção "Você Sabia" para desktop
+
 ## Notas
 
 - Projeto migrado com sucesso do repositório original

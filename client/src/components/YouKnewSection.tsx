@@ -37,22 +37,24 @@ export default function YouKnewSection({ imageUrls = [] }: YouKnewSectionProps) 
         </p>
 
         {imageUrls.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {imageUrls.map((url, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: idx * 0.1, duration: 0.4 }}
-                className="rounded-2xl overflow-hidden shadow-lg"
-              >
-                <img
-                  src={url}
-                  alt={`Reportagem ${idx + 1}`}
-                  className="w-full h-auto min-h-48 md:h-56 lg:h-64 object-contain hover:scale-105 transition-transform duration-300"
-                />
-              </motion.div>
-            ))}
+          <div className="flex justify-center">
+            <div className="w-full md:w-3/4 lg:w-2/3">
+              {imageUrls.map((url, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.1, duration: 0.4 }}
+                  className="rounded-2xl overflow-hidden shadow-lg"
+                >
+                  <img
+                    src={url}
+                    alt={`Reportagem ${idx + 1}`}
+                    className="w-full h-auto min-h-48 md:h-80 lg:h-96 object-contain hover:scale-105 transition-transform duration-300"
+                  />
+                </motion.div>
+              ))}
+            </div>
           </div>
         )}
 
