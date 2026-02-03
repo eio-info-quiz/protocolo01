@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, quizResponses, InsertQuizResponse } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,37 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function saveQuizResponse(response: InsertQuizResponse) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot save quiz response: database not available");
+    return undefined;
+  }
+
+  try {
+    const result = await db.insert(quizResponses).values(response);
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to save quiz response:", error);
+    throw error;
+  }
+}
+
+export async function getQuizResponsesByEmail(email: string) {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get quiz responses: database not available");
+    return [];
+  }
+
+  try {
+    const result = await db
+      .select()
+      .from(quizResponses)
+      .where(eq(quizResponses.email, email));
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get quiz responses:", error);
+    return [];
+  }
+}
