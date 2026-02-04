@@ -117,11 +117,7 @@ export default function Results() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
-              className="mb-4 md:mb-6 p-4 md:p-6 rounded-2xl"
-              style={{
-                backgroundColor: "#f0f4ff",
-                border: "2px solid #4868f6",
-              }}
+              className="mb-4 md:mb-6 text-center"
             >
               <p
                 className="text-center text-lg md:text-xl font-semibold mb-3"
@@ -143,9 +139,9 @@ export default function Results() {
               >
                 R$ 297,90
               </p>
-              <div>
+              <div className="text-center">
                 <p
-                  className="text-lg md:text-2xl font-bold mb-1 md:mb-2 whitespace-nowrap inline-block px-3 py-1 rounded"
+                  className="text-lg md:text-2xl font-bold mb-1 md:mb-2 inline-block px-3 py-1 rounded"
                   style={{
                     fontFamily: QUIZ_FONTS.primary,
                     color: "white",
