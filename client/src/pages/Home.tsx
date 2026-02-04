@@ -32,6 +32,9 @@ export default function Home() {
             src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663029970056/NkKUYtlmfICmDrqb.webp"
             alt="Mãe e bebê"
             className="w-48 h-48 object-contain mx-auto drop-shadow-lg"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
           />
         </motion.div>
 

@@ -37,16 +37,18 @@ const OptimizedTooltipProvider = ({ children }: { children: React.ReactNode }) =
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
-    <Suspense fallback={<PageLoader />}>
-      <Switch>
-        <Route path={"/"} component={Home} />
-        <Route path={"/quiz"} component={Quiz} />
-        <Route path={"/results"} component={Results} />
-        <Route path={"/404"} component={NotFound} />
-        {/* Final fallback route */}
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
+    <main>
+      <Suspense fallback={<PageLoader />}>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/quiz" component={Quiz} />
+          <Route path="/results" component={Results} />
+          <Route path="/404" component={NotFound} />
+          {/* Final fallback route */}
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    </main>
   );
 }
 

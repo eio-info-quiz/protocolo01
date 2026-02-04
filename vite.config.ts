@@ -167,6 +167,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    minify: "terser",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "framer-motion"],
+          trpc: ["@trpc/client", "@trpc/react-query", "@tanstack/react-query"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 500,
   },
   server: {
     host: true,
