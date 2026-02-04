@@ -105,21 +105,3 @@ export async function saveQuizResponse(response: InsertQuizResponse) {
   }
 }
 
-export async function getQuizResponsesByEmail(email: string) {
-  const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot get quiz responses: database not available");
-    return [];
-  }
-
-  try {
-    const result = await db
-      .select()
-      .from(quizResponses)
-      .where(eq(quizResponses.email, email));
-    return result;
-  } catch (error) {
-    console.error("[Database] Failed to get quiz responses:", error);
-    return [];
-  }
-}

@@ -1,15 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { QUIZ_COLORS, QUIZ_FONTS } from "@/constants/quiz";
 import VideoPlayer from "@/components/VideoPlayer";
 import YouKnewSection from "@/components/YouKnewSection";
 import { motion } from "framer-motion";
 
+const STYLES = {
+  primaryText: {
+    fontFamily: QUIZ_FONTS.primary,
+    color: "#4868f6",
+  },
+  secondaryText: {
+    fontFamily: QUIZ_FONTS.secondary,
+    color: QUIZ_COLORS.text,
+  },
+  accentText: {
+    color: "#22c55e",
+  },
+  mutedText: {
+    color: "#666",
+  },
+  lightText: {
+    color: "#999",
+  },
+} as const;
+
 export default function Results() {
   const [showCta, setShowCta] = useState(false);
 
-  const handleCtaReady = () => {
+  const handleCtaReady = useCallback(() => {
     setShowCta(true);
-  };
+  }, []);
+
+  const paymentImageUrl = useMemo(() => 
+    "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029970056/rSYOXPvggmmPhFxs.webp",
+    []
+  );
+
+  const testimonialImageUrl = useMemo(() => 
+    "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029970056/baecVWdpacOPDLjq.webp",
+    []
+  );
 
   return (
     <div
@@ -26,10 +56,7 @@ export default function Results() {
           >
             <p
               className="text-lg md:text-xl leading-relaxed"
-              style={{
-                fontFamily: QUIZ_FONTS.secondary,
-                color: QUIZ_COLORS.text,
-              }}
+              style={STYLES.secondaryText}
             >
               Assista abaixo ao{" "}
               <span style={{ color: "#4868f6", fontWeight: "600" }}>
@@ -95,18 +122,14 @@ export default function Results() {
             >
               <p
                 className="text-center text-lg md:text-xl font-semibold mb-3"
-                style={{
-                  fontFamily: QUIZ_FONTS.primary,
-                  color: "#4868f6",
-                }}
+                style={STYLES.primaryText}
               >
                 Valor Original:
               </p>
               <p
                 className="text-center text-xl md:text-2xl font-bold mb-4"
                 style={{
-                  fontFamily: QUIZ_FONTS.primary,
-                  color: "#666",
+                  ...STYLES.mutedText,
                   textDecoration: "line-through",
                   fontWeight: "600",
                 }}
@@ -128,7 +151,7 @@ export default function Results() {
                   className="text-2xl md:text-4xl font-black mt-2 md:mt-3"
                   style={{
                     fontFamily: QUIZ_FONTS.primary,
-                    color: "#22c55e",
+                    ...STYLES.accentText,
                     lineHeight: "1.1",
                   }}
                 >
@@ -191,19 +214,17 @@ export default function Results() {
             >
               <p
                 className="text-xs md:text-base leading-relaxed mb-4"
-                style={{
-                  fontFamily: QUIZ_FONTS.secondary,
-                  color: "#666",
-                }}
+                style={STYLES.secondaryText}
               >
                 Compra Segura • Acesso Imediato • Garantia de 7 dias
               </p>
               
               <div className="flex justify-center items-center mt-4">
                 <img 
-                  src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663029970056/rSYOXPvggmmPhFxs.webp" 
+                  src={paymentImageUrl}
                   alt="Métodos de pagamento" 
                   className="h-12 md:h-16 object-contain"
+                  loading="lazy"
                 />
               </div>
             </motion.div>
@@ -212,9 +233,7 @@ export default function Results() {
       </div>
 
       {showCta && (
-        <YouKnewSection imageUrls={[
-          "https://files.manuscdn.com/user_upload_by_module/session_file/310419663029970056/baecVWdpacOPDLjq.webp",
-        ]} />
+        <YouKnewSection imageUrls={[testimonialImageUrl]} />
       )}
 
       {showCta && (
@@ -222,17 +241,14 @@ export default function Results() {
           <div className="max-w-2xl mx-auto px-4 text-center">
             <p
               className="text-xs md:text-sm leading-relaxed mb-4"
-              style={{
-                fontFamily: QUIZ_FONTS.secondary,
-                color: "#999",
-              }}
+              style={STYLES.lightText}
             >
               Feito para mamães que merecem descanso ❤️
             </p>
             <p
               className="text-xs md:text-sm"
               style={{
-                fontFamily: QUIZ_FONTS.secondary,
+                ...STYLES.secondaryText,
                 color: "#bbb",
               }}
             >

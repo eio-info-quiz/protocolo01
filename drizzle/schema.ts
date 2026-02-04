@@ -46,8 +46,6 @@ export const quizResponses = mysqlTable("quiz_responses", {
   motherFeeling: varchar("mother_feeling", { length: 255 }).notNull(),
   /** Whether they've tried other methods */
   triedOtherMethods: varchar("tried_other_methods", { length: 50 }).notNull(),
-  /** Timestamp when the quiz was completed */
-  completedAt: timestamp("completed_at").defaultNow().notNull(),
   /** Timestamp when the lead was created */
   createdAt: timestamp("created_at").defaultNow().notNull(),
   /** Timestamp when the lead was last updated */

@@ -1,0 +1,1 @@
+ALTER TABLE `quiz_responses` DROP COLUMN `completed_at`;

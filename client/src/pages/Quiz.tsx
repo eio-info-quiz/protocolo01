@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useLocation } from "wouter";
 import { AnimatePresence } from "framer-motion";
 import { QUIZ_QUESTIONS, QUIZ_COLORS, QUIZ_FONTS } from "@/constants/quiz";
@@ -21,14 +21,14 @@ export default function Quiz() {
 
   const submitQuizMutation = trpc.quiz.submitResponse.useMutation();
 
-  const handleSelectAnswer = (value: string) => {
-    setAnswers({
-      ...answers,
+  const handleSelectAnswer = useCallback((value: string) => {
+    setAnswers(prev => ({
+      ...prev,
       [currentQuestion]: value,
-    });
+    }));
 
     // Auto-advance to next question after a short delay
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
         setCurrentQuestion(currentQuestion + 1);
       } else {
@@ -42,9 +42,11 @@ export default function Quiz() {
         });
       }
     }, 300);
-  };
 
-  const handleSubmitQuiz = async (finalAnswers: any) => {
+    return () => clearTimeout(timer);
+  }, [currentQuestion, answers]);
+
+  const handleSubmitQuiz = useCallback(async (finalAnswers: any) => {
     setIsProcessing(true);
 
     try {
@@ -71,13 +73,13 @@ export default function Quiz() {
       toast.error("Erro ao enviar suas respostas. Tente novamente.");
       setIsProcessing(false);
     }
-  };
+  }, [submitQuizMutation, setLocation]);
 
   if (isProcessing) {
     return <ProcessingScreen />;
   }
 
-  const currentQuestionData = QUIZ_QUESTIONS[currentQuestion];
+  const currentQuestionData = useMemo(() => QUIZ_QUESTIONS[currentQuestion], [currentQuestion]);
 
   return (
     <div
