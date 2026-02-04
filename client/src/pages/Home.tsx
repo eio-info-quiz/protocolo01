@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { QUIZ_COLORS, QUIZ_FONTS } from "@/constants/quiz";
 import { motion } from "framer-motion";
+import { usePixelTracking } from "@/hooks/usePixelTracking";
+import { useUtmParams } from "@/hooks/useUtmParams";
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [isHoveringCta, setIsHoveringCta] = useState(false);
+  const { trackViewContent } = usePixelTracking();
+  const { fbclid } = useUtmParams();
+
+  // Rastrear visualização da página inicial
+  useEffect(() => {
+    trackViewContent();
+  }, [trackViewContent]);
 
   const handleStartQuiz = () => {
     setLocation("/quiz");
