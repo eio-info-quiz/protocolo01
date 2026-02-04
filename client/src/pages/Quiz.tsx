@@ -18,33 +18,8 @@ export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [isProcessing, setIsProcessing] = useState(false);
-  const [fbclid, setFbclid] = useState<string | null>(null);
-
-  // Capturar FBCLID da URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const fbclidParam = params.get('fbclid');
-    if (fbclidParam) {
-      setFbclid(fbclidParam);
-    }
-  }, []);
 
   const submitQuizMutation = trpc.quiz.submitResponse.useMutation();
-  const trackEventMutation = trpc.facebook.trackEvent.useMutation();
-
-  // Rastrear evento de início do quiz
-  useEffect(() => {
-    if (fbclid) {
-      trackEventMutation.mutate({
-        eventName: 'ViewContent',
-        email: undefined,
-        phone: undefined,
-        fbclid: fbclid,
-        value: undefined,
-        currency: 'BRL',
-      });
-    }
-  }, [fbclid]);
 
   const handleSelectAnswer = (value: string) => {
     setAnswers({
@@ -82,20 +57,9 @@ export default function Quiz() {
         hasRoutine: finalAnswers.hasRoutine,
         motherFeeling: finalAnswers.motherFeeling,
         triedOtherMethods: finalAnswers.triedOtherMethods || "",
-        fbclid: fbclid || undefined,
       });
 
       if (response.success) {
-        // Rastrear conclusão do quiz
-        trackEventMutation.mutate({
-          eventName: 'CompleteRegistration',
-          email: undefined,
-          phone: undefined,
-          fbclid: fbclid || undefined,
-          value: undefined,
-          currency: 'BRL',
-        });
-
         // Simulate processing time
         await new Promise((resolve) => setTimeout(resolve, 3000));
 

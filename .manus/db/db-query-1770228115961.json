@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `quiz_responses` DROP COLUMN `fbclid`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2rgKqDuJ6HLdx7g.root --database 9fdwjtgoeGEmU8dEyjRNBK --execute ALTER TABLE `quiz_responses` DROP COLUMN `fbclid`;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 5092
+}

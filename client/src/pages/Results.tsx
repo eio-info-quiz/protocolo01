@@ -3,38 +3,12 @@ import { QUIZ_COLORS, QUIZ_FONTS } from "@/constants/quiz";
 import VideoPlayer from "@/components/VideoPlayer";
 import YouKnewSection from "@/components/YouKnewSection";
 import { motion } from "framer-motion";
-import { usePixelTrackingV2 } from "@/hooks/usePixelTrackingV2";
-
-declare global {
-  interface Window {
-    fbq?: (action: string, event: string, data?: Record<string, unknown>) => void;
-    gtag?: (action: string, event: string, data?: Record<string, unknown>) => void;
-  }
-}
 
 export default function Results() {
-  const [email, setEmail] = useState("");
   const [showCta, setShowCta] = useState(false);
-  const { trackViewContent, trackPurchase } = usePixelTrackingV2();
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const emailParam = params.get("email");
-    if (emailParam) {
-      setEmail(decodeURIComponent(emailParam));
-    }
-
-    // Rastrear visualizacao com Redundant Setup (Pixel + API)
-    trackViewContent();
-  }, [trackViewContent]);
 
   const handleCtaReady = () => {
     setShowCta(true);
-  };
-
-  const handleCtaClick = async () => {
-    // Rastrear Purchase com Redundant Setup (Pixel + API com deduplicacao)
-    await trackPurchase(47.90, "BRL");
   };
 
   return (
@@ -188,7 +162,6 @@ export default function Results() {
                 href="https://pay.hotmart.com/J103234260Q?checkoutMode=10"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={handleCtaClick}
                 className="pulse-button block w-full p-4 md:p-6 rounded-2xl font-bold transition-all duration-300 hover:scale-105 active:scale-95 no-underline"
                 style={{
                   fontFamily: QUIZ_FONTS.primary,

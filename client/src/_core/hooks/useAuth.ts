@@ -1,4 +1,3 @@
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
@@ -6,6 +5,13 @@ import { useCallback, useEffect, useMemo } from "react";
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
   redirectPath?: string;
+};
+
+const getLoginUrl = () => {
+  const origin = window.location.origin;
+  const returnPath = window.location.pathname + window.location.search;
+  const state = btoa(JSON.stringify({ origin, returnPath }));
+  return `${window.location.origin}/auth/login?state=${state}`;
 };
 
 export function useAuth(options?: UseAuthOptions) {

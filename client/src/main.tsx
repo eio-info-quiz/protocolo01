@@ -5,10 +5,16 @@ import { httpBatchLink, TRPCClientError } from "@trpc/client";
 import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
-import { getLoginUrl } from "./const";
 import "./index.css";
 
 const queryClient = new QueryClient();
+
+const getLoginUrl = () => {
+  const origin = window.location.origin;
+  const returnPath = window.location.pathname + window.location.search;
+  const state = btoa(JSON.stringify({ origin, returnPath }));
+  return `${window.location.origin}/auth/login?state=${state}`;
+};
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;

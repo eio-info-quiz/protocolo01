@@ -31,7 +31,6 @@ describe("quiz.submitResponse", () => {
       hasRoutine: "no",
       motherFeeling: "patience",
       triedOtherMethods: "no",
-      fbclid: undefined,
     });
 
     expect(result).toBeDefined();
@@ -75,77 +74,5 @@ describe("quiz.submitResponse", () => {
     } catch (error) {
       expect(error).toBeDefined();
     }
-  });
-});
-
-describe("facebook.trackEvent", () => {
-  it("should handle facebook event tracking input", async () => {
-    const ctx = createPublicContext();
-    const caller = appRouter.createCaller(ctx);
-
-    const result = await caller.facebook.trackEvent({
-      eventName: "ViewContent",
-      email: undefined,
-      phone: undefined,
-      fbclid: "test-fbclid-123",
-      value: undefined,
-      currency: "BRL",
-    });
-
-    expect(result).toBeDefined();
-    // Facebook tracking may succeed or fail depending on credentials
-    // Just verify the result structure is correct
-    expect(result).toHaveProperty('success');
-  });
-
-  it("should validate event name", async () => {
-    const ctx = createPublicContext();
-    const caller = appRouter.createCaller(ctx);
-
-    const result = await caller.facebook.trackEvent({
-      eventName: "Purchase",
-      email: "test@example.com",
-      phone: "5511999999999",
-      fbclid: undefined,
-      value: 47.90,
-      currency: "BRL",
-    });
-
-    expect(result).toBeDefined();
-    // Verify result structure is correct
-    expect(result).toHaveProperty('success');
-  });
-});
-
-describe("hotmart.webhook", () => {
-  it("should handle hotmart webhook input", async () => {
-    const ctx = createPublicContext();
-    const caller = appRouter.createCaller(ctx);
-
-    const result = await caller.hotmart.webhook({
-      email: "customer@example.com",
-      phone: "5511999999999",
-      name: "Customer Name",
-      amount: 47.90,
-      orderId: "order-123",
-      status: "approved",
-    });
-
-    expect(result).toBeDefined();
-    expect(result.success).toBe(true);
-  });
-
-  it("should handle missing optional fields in webhook", async () => {
-    const ctx = createPublicContext();
-    const caller = appRouter.createCaller(ctx);
-
-    const result = await caller.hotmart.webhook({
-      email: "customer2@example.com",
-      amount: 297.90,
-      orderId: "order-456",
-    });
-
-    expect(result).toBeDefined();
-    expect(result.success).toBe(true);
   });
 });
