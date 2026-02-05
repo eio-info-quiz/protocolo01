@@ -21,31 +21,6 @@ export default function Quiz() {
 
   const submitQuizMutation = trpc.quiz.submitResponse.useMutation();
 
-  const handleSelectAnswer = useCallback((value: string) => {
-    setAnswers(prev => ({
-      ...prev,
-      [currentQuestion]: value,
-    }));
-
-    // Auto-advance to next question after a short delay
-    const timer = setTimeout(() => {
-      if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        handleSubmitQuiz({
-          babyAge: answers[0] || "",
-          wakeUps: answers[1] || "",
-          sleepMethod: answers[2] || "",
-          hasRoutine: answers[3] || "",
-          motherFeeling: answers[4] || "",
-          triedOtherMethods: answers[5] || "",
-        });
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [currentQuestion, answers]);
-
   const handleSubmitQuiz = useCallback(async (finalAnswers: any) => {
     setIsProcessing(true);
 
@@ -75,11 +50,36 @@ export default function Quiz() {
     }
   }, [submitQuizMutation, setLocation]);
 
+  const handleSelectAnswer = useCallback((value: string) => {
+    setAnswers(prev => ({
+      ...prev,
+      [currentQuestion]: value,
+    }));
+
+    // Auto-advance to next question after a short delay
+    const timer = setTimeout(() => {
+      if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        handleSubmitQuiz({
+          babyAge: answers[0] || "",
+          wakeUps: answers[1] || "",
+          sleepMethod: answers[2] || "",
+          hasRoutine: answers[3] || "",
+          motherFeeling: answers[4] || "",
+          triedOtherMethods: answers[5] || "",
+        });
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [currentQuestion, answers, handleSubmitQuiz]);
+
+  const currentQuestionData = useMemo(() => QUIZ_QUESTIONS[currentQuestion], [currentQuestion]);
+
   if (isProcessing) {
     return <ProcessingScreen />;
   }
-
-  const currentQuestionData = useMemo(() => QUIZ_QUESTIONS[currentQuestion], [currentQuestion]);
 
   return (
     <div
